@@ -1,0 +1,11 @@
+{
+    "id": "nix",
+    "version": "0.1.0",
+    "name": "Nix Package Manager using Determinate Systems Installer",
+    "documentationURL": "https://github.com/DeterminateSystems/nix-installer?tab=readme-ov-file#in-a-container",
+    "description": "Install the Nix package manager with flake support powered by Determinate Systems Installer",
+    "options": {},
+    "containerEnv": {
+        "PATH": "${PATH}:/nix/var/nix/profiles/default/bin"
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "id": "home-manager",
+    "version": "0.2.0",
+    "name": "Install a Home Manager configuration from a flake",
+    "documentationURL": "https://nix-community.github.io/home-manager/",
+    "description": "Install an Home Manager configuration from a flake",
+    "options": {
+        "flake": {
+            "type": "string",
+            "description": "The flake to install Home Manager from",
+            "proposals": [
+                "github:florentinl/home-manager"
+            ],
+            "default": "github:florentinl/home-manager"
+        },
+        "shell_program": {
+            "type": "string",
+            "description": "The default shell of the user",
+            "enum": [
+                "bash",
+                "zsh",
+                "fish"
+            ],
+            "default": "zsh"
+        }
+    },
+    "dependsOn": {
+        "ghcr.io/florentinl/features/nix:latest": {}
+    }
+}

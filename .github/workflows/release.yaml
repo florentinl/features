@@ -1,0 +1,46 @@
+name: "Release dev container features"
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Publish"
+        uses: devcontainers/action@v1.4
+        with:
+          generate-docs: "true"
+          publish-features: "true"
+          base-path-to-features: "./src"
+          disable-repo-tagging: "true"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create a PR for Documentation
+        id: push_image_info
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          echo "Start."
+
+          # Configure git and Push updates
+          git config --global user.email github-actions@github.com
+          git config --global user.name github-actions
+          git config pull.rebase false
+
+          message='Automated documentation update'
+
+          # Add / update and commit
+          git add */**/README.md
+          git commit -m 'Automated documentation update [skip ci]' || export NO_UPDATES=true
+
+          NO_UPDATE || git push
